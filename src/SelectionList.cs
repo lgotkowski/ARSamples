@@ -18,7 +18,6 @@ public static class SelectionList
 {
     
     static List<GameObject> m_SelectionList = new List<GameObject>();
-    static SelectionListEventArgs m_eventListArgs = new SelectionListEventArgs(m_SelectionList);
     public static event EventHandler<SelectionListEventArgs> onSelectionChanged;
     //public static event EventHandler onSelectionChanged = delegate { };
 
@@ -44,7 +43,7 @@ public static class SelectionList
     {
         //onSelectionChanged(m_SelectionList, m_SelectionList);
         if(onSelectionChanged != null)
-            onSelectionChanged(null, m_eventListArgs);
+            onSelectionChanged(null, new SelectionListEventArgs(m_SelectionList));
         //onSelectionChanged(null, new SelectionListEventArgs() { m_List = m_SelectionList });
     }
 

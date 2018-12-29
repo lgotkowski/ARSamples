@@ -8,6 +8,7 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshSurface))]
 public class NavMeshUpdater : MonoBehaviour
 {
+    public bool m_EverySecond = false;
     private NavMeshSurface m_navMeshSurface;
     private float m_UpdateInterval = 1f;
 
@@ -16,10 +17,13 @@ public class NavMeshUpdater : MonoBehaviour
         m_navMeshSurface = GetComponent<NavMeshSurface>();
 
         // temp test
-        StartCoroutine(IntervalMeshUpdater());
+        if (m_EverySecond)
+            StartCoroutine(IntervalMeshUpdater());
+        else
+            AreaMarker.onUpdatedArea += OnUpdatedMesh;
     }
 
-    private void OnUpdatedMesh()
+    private void OnUpdatedMesh(object sender, Mesh mesh)
     {
         m_navMeshSurface.BuildNavMesh();
     }
@@ -28,7 +32,7 @@ public class NavMeshUpdater : MonoBehaviour
     {
         while (true)
         {
-            OnUpdatedMesh();
+            OnUpdatedMesh(null, null);
             yield return new WaitForSeconds(m_UpdateInterval);
         }
     }

@@ -14,7 +14,6 @@ public class TouchDetector : MonoBehaviour
 
     public static event EventHandler<Touch> onTouch;
     public static event EventHandler<ARRaycastHit> onARTouch;
-    public event Action<Touch> onTestAction;
 
     void Awake()
     {
