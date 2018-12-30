@@ -60,12 +60,13 @@ class Triangulation
         {
             IsVertexEar(vertices[i], vertices, earVertices);
         }
-
+        Debug.Log(string.Format("earVertex Count: {0}", earVertices.Count));
 
 
         //Step 3. Triangulate!
         while (true)
         {
+            Debug.Log(string.Format("Vertex Count: {0}", vertices.Count));
             //This means we have just one triangle left
             if (vertices.Count == 3)
             {
