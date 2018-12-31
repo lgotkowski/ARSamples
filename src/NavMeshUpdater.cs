@@ -15,15 +15,16 @@ public class NavMeshUpdater : MonoBehaviour
     void Start()
     {
         m_navMeshSurface = GetComponent<NavMeshSurface>();
-
+        transform.position = Vector3.zero;
         // temp test
         if (m_EverySecond)
             StartCoroutine(IntervalMeshUpdater());
         else
-            AreaMarker.onUpdatedArea += OnUpdatedMesh;
+            MeshArea.onUpdatMeshAreaFinished += OnUpdatedMesh;
+            //AreaMarker.onUpdatedArea += OnUpdatedMesh;
     }
 
-    private void OnUpdatedMesh(object sender, Mesh mesh)
+    private void OnUpdatedMesh(object sender, object eventData)
     {
         m_navMeshSurface.BuildNavMesh();
     }

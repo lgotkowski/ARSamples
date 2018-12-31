@@ -9,18 +9,13 @@ public class ARPlaneToggle : MonoBehaviour
 
     private void Start()
     {
-        AreaMarker.onAddPoint += OnAddPoint;
-        AreaMarker.onFinishedSampling += OnFinishAreaSampling;
+
+        MeshAreaShelfController.onEditingMeshArea += OnEditingMeshArea;
         m_MeshCollider = GetComponent<MeshCollider>();
     }
 
-    void OnAddPoint(object sender, object eventData)
+    void OnEditingMeshArea(object sender, bool state)
     {
-        m_MeshCollider.enabled = true;
-    }
-
-    void OnFinishAreaSampling(object sender, PositionListEventArgs posList)
-    {
-        m_MeshCollider.enabled = false;
+        m_MeshCollider.enabled = state;
     }
 }
