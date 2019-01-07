@@ -9,6 +9,7 @@ using UnityEngine.AI;
 public class NavMeshUpdater : MonoBehaviour
 {
     public bool m_EverySecond = false;
+    public bool m_OnceOnStart = false;
     private NavMeshSurface m_navMeshSurface;
     private float m_UpdateInterval = 1f;
 
@@ -19,12 +20,19 @@ public class NavMeshUpdater : MonoBehaviour
         // temp test
         if (m_EverySecond)
             StartCoroutine(IntervalMeshUpdater());
+        if (m_OnceOnStart)
+            UpdateNavMesh();
         else
             MeshArea.onUpdatMeshAreaFinished += OnUpdatedMesh;
             //AreaMarker.onUpdatedArea += OnUpdatedMesh;
     }
 
     private void OnUpdatedMesh(object sender, object eventData)
+    {
+        UpdateNavMesh();
+    }
+
+    private void UpdateNavMesh()
     {
         m_navMeshSurface.BuildNavMesh();
     }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+//using UnityEditor;
 
 public class Utils 
 {
@@ -31,4 +32,24 @@ public class Utils
     {
         return Mathf.Max(0, list.Count - 1);
     }
+
+    /*
+    // Editor Script Only
+    public List<string> GetPrefabsResourcePaths(List<GameObject> prefabs)
+    {
+        List<string> paths = new List<string>();
+        foreach(GameObject prefab in prefabs)
+        {
+            
+        }
+        return paths;
+    }
+
+    string GetPRefabResourcePath(GameObject prefab)
+    {
+        string fullPathWithExtenstion = AssetDatabase.GetAssetPath(prefab);
+        string pathWithExtension = fullPathWithExtenstion.Replace("Assets/Resources/", "");
+        return pathWithExtension.Replace(".prefab", "");
+    }
+    */
 }

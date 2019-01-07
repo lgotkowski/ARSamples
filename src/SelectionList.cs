@@ -16,9 +16,8 @@ public class SelectionListEventArgs : EventArgs
 
 public static class SelectionList 
 {
-    
     static List<GameObject> m_SelectionList = new List<GameObject>();
-    public static event EventHandler<SelectionListEventArgs> onSelectionChanged;
+    public static event EventHandler<SelectionListEventArgs> onSelectionChanged = delegate { };
     //public static event EventHandler onSelectionChanged = delegate { };
 
     public static void AddToSelection(GameObject instance)
@@ -42,8 +41,7 @@ public static class SelectionList
     private static void RaiseSelectionChanged()
     {
         //onSelectionChanged(m_SelectionList, m_SelectionList);
-        if(onSelectionChanged != null)
-            onSelectionChanged(null, new SelectionListEventArgs(m_SelectionList));
+        onSelectionChanged(null, new SelectionListEventArgs(m_SelectionList));
         //onSelectionChanged(null, new SelectionListEventArgs() { m_List = m_SelectionList });
     }
 

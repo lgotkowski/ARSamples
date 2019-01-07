@@ -9,7 +9,6 @@ public class ARPlaneToggle : MonoBehaviour
 
     private void Start()
     {
-
         MeshAreaShelfController.onEditingMeshArea += OnEditingMeshArea;
         m_MeshCollider = GetComponent<MeshCollider>();
     }

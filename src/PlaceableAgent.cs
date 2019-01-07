@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.AI;
+using UnityEngine.Networking;
 
 public class PlaceableAgent : MonoBehaviour, IPointerDownHandler
 {
@@ -34,7 +35,7 @@ public class PlaceableAgent : MonoBehaviour, IPointerDownHandler
     }
 
     private void OnUpdateDestination(object sender, PointerEventData pointerData)
-    {
+    { 
         m_NavMeshAgent.SetDestination(pointerData.pointerCurrentRaycast.worldPosition);
     }
 }
