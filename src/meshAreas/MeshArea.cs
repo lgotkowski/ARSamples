@@ -11,6 +11,7 @@ public class MeshArea : MonoBehaviour
     private string m_Name = "Area";
     [SerializeField]
     private List<GameObject> m_PreviewPoints = new List<GameObject>();
+    private float m_HeightOffset = 0.001f;
 
     // Components
     private MeshRenderer m_MeshRender;
@@ -49,7 +50,7 @@ public class MeshArea : MonoBehaviour
     {
         GameObject previewPoint = Instantiate(m_PreviewPointPrefab, point, Quaternion.identity);
         m_PreviewPoints.Add(previewPoint);
-        UpdateLineRender(true, GetPositions());
+        UpdateLineRender(true, GetPositions(heightOffset: 0f));
     }
 
     public void RemovePoint(int index)
@@ -65,13 +66,13 @@ public class MeshArea : MonoBehaviour
     {
         m_PreviewPoints.Remove(previewPoint);
         Destroy(previewPoint);
-        UpdateLineRender(true, GetPositions());
+        UpdateLineRender(true, GetPositions(heightOffset: 0f));
     }
 
     public void RemoveAllPoints()
     {
         m_PreviewPoints.Clear();
-        UpdateLineRender(true, GetPositions());
+        UpdateLineRender(true, GetPositions(heightOffset: 0f));
         DeletePreviewPoints();
     }
 
@@ -88,12 +89,12 @@ public class MeshArea : MonoBehaviour
             List<Triangle> triangles = new List<Triangle>();
             try
             {
-                triangles = Triangulation.TriangulateConcavePolygon(GetPositions());
+                triangles = Triangulation.TriangulateConcavePolygon(GetPositions(heightOffset: m_HeightOffset));
             }
             catch
             {
                 m_PreviewPoints.Reverse();
-                triangles = Triangulation.TriangulateConcavePolygon(GetPositions());
+                triangles = Triangulation.TriangulateConcavePolygon(GetPositions(m_HeightOffset));
             }
             
             Vector3[] u_verticies = new Vector3[triangles.Count * 3];
@@ -142,12 +143,13 @@ public class MeshArea : MonoBehaviour
         m_LineRender.SetPositions(points.ToArray());
     }
 
-    private List<Vector3> GetPositions()
+    private List<Vector3> GetPositions(float heightOffset)
     {
+        Vector3 offset = new Vector3(0, heightOffset, 0);
         List<Vector3> points = new List<Vector3>();
         foreach(GameObject previewPoint in m_PreviewPoints)
         {
-            points.Add(previewPoint.transform.position);
+            points.Add(previewPoint.transform.position + offset);
         }
         return points;
     }

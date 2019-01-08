@@ -11,10 +11,10 @@ public class TouchFilter
     private List<string> m_Tags = new List<string>();
     private List<TouchTag> m_TouchTags = new List<TouchTag>();
 
-    public event EventHandler<PointerEventData> onTouched = delegate { };
-    public event EventHandler<PointerEventData> onBeginDrag = delegate { };
-    public event EventHandler<PointerEventData> onDrag = delegate { };
-    public event EventHandler<PointerEventData> onEndDrag = delegate { };
+    public event EventHandler<TouchObserverEvent> onTouched = delegate { };
+    public event EventHandler<TouchObserverEvent> onBeginDrag = delegate { };
+    public event EventHandler<TouchObserverEvent> onDrag = delegate { };
+    public event EventHandler<TouchObserverEvent> onEndDrag = delegate { };
 
     public TouchFilter(List<string> tags, List<TouchTag> touchTags)
     {
@@ -27,10 +27,10 @@ public class TouchFilter
         TouchObserver.onObjectEndDrag += OnObjectEndDrag;
     }
 
-    bool ContainsTag(GameObject sender)
+    bool ContainsTag(TouchObserver sender)
     {
         bool state;
-        GameObject touchedObject = sender;
+        GameObject touchedObject = sender.gameObject;
 
 
         if(m_Tags != null && m_Tags.Contains(sender.tag))
@@ -38,7 +38,7 @@ public class TouchFilter
             return true;
         }
 
-        List<TouchTag> touchTags = sender.GetComponent<TouchObserver>().GetTouchTags();
+        List<TouchTag> touchTags = sender.GetTouchTags();
         if (touchTags == null)
             return false;
 
@@ -50,35 +50,55 @@ public class TouchFilter
         return false;
     }
 
-    void OnObjectTouched(object sender, PointerEventData eventData)
+    void OnObjectTouched(object sender, TouchObserverEvent touchObservEventData)
     {
-        if(ContainsTag(sender as GameObject))
+        if(ContainsTag(sender as TouchObserver))
         {
-            onTouched(sender, eventData);
+            onTouched(sender, touchObservEventData);
         }
     }
 
-    void OnObjectBeginDrag(object sender, PointerEventData eventData)
+    void OnObjectBeginDrag(object sender, TouchObserverEvent touchObservEventData)
     {
-        if (ContainsTag(sender as GameObject))
+        if (ContainsTag(sender as TouchObserver))
         {
-            onBeginDrag(sender, eventData);
+            onBeginDrag(sender, touchObservEventData);
         }
     }
 
-    void OnObjectDrag(object sender, PointerEventData eventData)
+    void OnObjectDrag(object sender, TouchObserverEvent touchObservEventData)
     {
-        if (ContainsTag(sender as GameObject))
+        if (ContainsTag(sender as TouchObserver))
         {
-            onDrag(sender, eventData);
+            onDrag(sender, touchObservEventData);
         }
     }
 
-    void OnObjectEndDrag(object sender, PointerEventData eventData)
+    void OnObjectEndDrag(object sender, TouchObserverEvent touchObservEventData)
     {
-        if (ContainsTag(sender as GameObject))
+        if (ContainsTag(sender as TouchObserver))
         {
-            onEndDrag(sender, eventData);
+            onEndDrag(sender, touchObservEventData);
         }
+    }
+
+    public void ClearOnTouched()
+    {
+        onTouched = delegate { };
+    }
+
+    public void ClearOnBeginDrag()
+    {
+        onTouched = delegate { };
+    }
+
+    public void ClearOnDrag()
+    {
+        onTouched = delegate { };
+    }
+
+    public void ClearOnEndDrag()
+    {
+        onTouched = delegate { };
     }
 }

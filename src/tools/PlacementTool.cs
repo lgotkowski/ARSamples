@@ -34,26 +34,26 @@ public class PlacementTool : AbstractTool
         m_Prefab = placeEvent.m_prefab;
     }
 
-    void OnGroundTouched(object sender, PointerEventData eventData)
+    void OnGroundTouched(object sender, TouchObserverEvent touchObservEventData)
     {
-        Vector3 position = eventData.pointerCurrentRaycast.worldPosition;
-        Vector3 up = eventData.pointerCurrentRaycast.worldNormal;
+        Vector3 position = touchObservEventData.m_PointerData.pointerCurrentRaycast.worldPosition;
+        Vector3 up = touchObservEventData.m_PointerData.pointerCurrentRaycast.worldNormal;
         Quaternion rotation = Quaternion.LookRotation(Vector3.forward, up);
         if (m_Prefab)
             InstantiateByRemotePlayer(m_folderName, m_Prefab, position, rotation);
     }
 
-    void OnGrounDrag(object sender, PointerEventData eventData)
+    void OnGrounDrag(object sender, TouchObserverEvent touchObservEventData)
     {
         if (m_Instance)
         {
-            Quaternion rotation = CalculateAimRotation(eventData);
+            Quaternion rotation = CalculateAimRotation(touchObservEventData.m_PointerData);
             TransformByRemotePlayer(m_Instance, m_Instance.transform.position, rotation);
             //m_Instance.transform.rotation = rotation;
         }
     }
 
-    void OnGroundDragEnd(object sender, PointerEventData eventData)
+    void OnGroundDragEnd(object sender, TouchObserverEvent touchObservEventData)
     {
         // Put the game object in the default layer (0)
         if(m_Instance && m_Prefab)
@@ -71,17 +71,6 @@ public class PlacementTool : AbstractTool
         Quaternion newRotation = Quaternion.LookRotation(forward, up);
         return newRotation;
     }
-
-    /*
-    void CreatePlaceable(GameObject prefab, Vector3 position, Quaternion rotation)
-    {
-        //m_Instance = Instantiate(prefab, position, rotation, m_PlaceableParent.transform);
-        m_Instance = Instantiate(prefab, position, rotation);
-        // Put the game object in the ignore raycast layer (2)
-        m_Instance.layer = 2;
-        Debug.Log(string.Format("Instance layer: {0}", m_Instance.layer));
-    }
-    */
 
     void InstantiateByRemotePlayer(string folderName, GameObject prefab, Vector3 position, Quaternion rotation)
     {

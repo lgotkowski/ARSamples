@@ -46,22 +46,22 @@ class ARAlignmentTool : AbstractTool
         m_OriginInstance.SetActive(false);
     }
 
-    void OnARBeginDrag(object sender, PointerEventData eventData)
+    void OnARBeginDrag(object sender, TouchObserverEvent touchObservEventData)
     {
-        Vector3 position = eventData.pointerCurrentRaycast.worldPosition;
+        Vector3 position = touchObservEventData.m_PointerData.pointerCurrentRaycast.worldPosition;
         SetWorldPosition(position);
         ApplyNewOrigin();
     }
 
-    void OnARDrag(object sender, PointerEventData eventData)
+    void OnARDrag(object sender, TouchObserverEvent touchObservEventData)
     {
-        Quaternion rotation = CalculateAimRotation(eventData);
+        Quaternion rotation = CalculateAimRotation(touchObservEventData.m_PointerData);
         SetWorldRotation(rotation);
     }
 
-    void OnAREndDrag(object sender, PointerEventData eventData)
+    void OnAREndDrag(object sender, TouchObserverEvent touchObservEventData)
     {
-        Quaternion rotation = CalculateAimRotation(eventData);
+        Quaternion rotation = CalculateAimRotation(touchObservEventData.m_PointerData);
         SetWorldRotation(rotation);
         ApplyNewOrigin();
     }
